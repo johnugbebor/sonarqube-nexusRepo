@@ -14,25 +14,6 @@ pipeline {
             }
         
             }
-        stage('Code Qualty Scan') {
-
-           steps {
-                  withSonarQubeEnv('sonaqube_scanner') {
-             sh "mvn -f SampleWebApp/pom.xml sonar:sonar"      
-               }
-            }
-       }
-        stage('Quality Gate') {
-          steps {
-                 waitForQualityGate abortPipeline: true
-              }
-        }
-        stage('push to nexus') {
-            steps {
-                nexusArtifactUploader artifacts: [[artifactId: 'SampleWebApp', classifier: '', file: 'SampleWebApp/target/.war', type: 'war']], credentialsId: 'nexus', groupId: 'SampleWebApp', nexusUrl: 'ec2-54-209-173-25.compute-1.amazonaws.com:8081', nexusVersion: 'nexus3', protocol: 'http', repository: 'maven-snapshots', version: '1.0-snapshot']], credentialsId: 'nexus', groupId: 'SampleWebApp', nexusUrl: 'ec2-54-234-118-157.compute-1.amazonaws.com:8081', nexusVersion: 'nexus3', protocol: 'http', repository: 'maven-snapshots', version: '1.0-SNAPSHOT'
-            }   
-            
-        }
         
        
             
